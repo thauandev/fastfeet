@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import DeliveryMan from '../models/DeliveryMan';
 
 class DeliveryManController {
-  async index(req, res) {
+  async index(res) {
     const deliverymens = await DeliveryMan.findAll();
 
     return res.json(deliverymens);
@@ -54,7 +54,7 @@ class DeliveryManController {
       return res.status(400).json({ error: 'Validations fails' });
     }
 
-    const { name, email } = req.body;
+    const deliveryman = req.body;
 
     const checkID = req.params;
 
@@ -67,7 +67,7 @@ class DeliveryManController {
     }
 
     const checkName = await DeliveryMan.findOne({
-      where: { name },
+      where: { name: deliveryman.name },
     });
 
     if (checkName) {
@@ -75,7 +75,7 @@ class DeliveryManController {
     }
 
     const checkEmail = await DeliveryMan.findOne({
-      where: { email },
+      where: { email: deliveryman.email },
     });
 
     if (checkEmail) {
@@ -84,10 +84,7 @@ class DeliveryManController {
 
     await deliveryIndex.update(req.body);
 
-    return res.json({
-      name,
-      email,
-    });
+    return res.json(deliveryman);
   }
 
   async delete(req, res) {
