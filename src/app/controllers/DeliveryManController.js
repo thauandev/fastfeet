@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import DeliveryMan from '../models/DeliveryMan';
 
 class DeliveryManController {
-  async index(res) {
+  async index(req, res) {
     const deliverymens = await DeliveryMan.findAll();
 
     return res.json(deliverymens);
