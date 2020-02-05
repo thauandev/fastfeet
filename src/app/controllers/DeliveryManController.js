@@ -1,10 +1,20 @@
 import * as Yup from 'yup';
 
 import DeliveryMan from '../models/DeliveryMan';
+import File from '../models/File';
 
 class DeliveryManController {
   async index(req, res) {
-    const deliverymens = await DeliveryMan.findAll();
+    const deliverymens = await DeliveryMan.findAll({
+      attributes: ['id', 'name', 'email', 'avatar_id'],
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['name', 'path', 'url'],
+        },
+      ],
+    });
 
     return res.json(deliverymens);
   }
