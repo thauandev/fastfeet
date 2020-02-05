@@ -68,11 +68,11 @@ class DeliveryManController {
 
     const checkID = req.params;
 
-    const deliveryIndex = await DeliveryMan.findOne({
+    const deliveryManIndex = await DeliveryMan.findOne({
       where: { id: checkID.id },
     });
 
-    if (!deliveryIndex) {
+    if (!deliveryManIndex) {
       return res.status(401).json({ error: 'Delivery man not exist' });
     }
 
@@ -92,7 +92,7 @@ class DeliveryManController {
       return res.status(401).json({ error: 'Email already exists' });
     }
 
-    await deliveryIndex.update(req.body);
+    await deliveryManIndex.update(req.body);
 
     return res.json(deliveryman);
   }
@@ -100,15 +100,15 @@ class DeliveryManController {
   async delete(req, res) {
     const checkID = req.params;
 
-    const deliveryIndex = await DeliveryMan.findOne({
+    const deliveryManIndex = await DeliveryMan.findOne({
       where: { id: checkID.id },
     });
 
-    if (!deliveryIndex) {
+    if (!deliveryManIndex) {
       return res.status(401).json({ error: 'Delivery man not exist' });
     }
 
-    await deliveryIndex.destroy(checkID);
+    await deliveryManIndex.destroy(checkID);
 
     return res.json({ message: 'Delivery Man deleted' });
   }

@@ -7,10 +7,6 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
       recipient_id: {
         type: Sequelize.INTEGER,
         references: { model: 'recipients', key: 'id' },
