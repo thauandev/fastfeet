@@ -3,6 +3,8 @@ import Delivery from '../models/Delivery';
 import Recipient from '../models/Recipient';
 import DeliveryMan from '../models/DeliveryMan';
 
+import Mail from '../../lib/Mail';
+
 class DeliveryController {
   async index(req, res) {
     const deliveries = await Delivery.findAll();
@@ -21,7 +23,7 @@ class DeliveryController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { recipient_id, deliveryman_id } = req.body;
+    const { recipient_id, deliveryman_id, product } = req.body;
 
     const checkRecipient = await Recipient.findOne({
       where: {
@@ -44,6 +46,23 @@ class DeliveryController {
     }
 
     const delivery = await Delivery.create(req.body);
+
+    await Mail.sendMail({
+      to: `${checkDeliveryMan.name} <${checkDeliveryMan.email}`,
+      subject: 'Você tem uma entrega cadastrada',
+      template: 'delivery',
+      context: {
+        deliveryman: checkDeliveryMan.name,
+        recipient: checkRecipient.name,
+        product,
+        recadress: checkRecipient.address,
+        recnumber: checkRecipient.number,
+        reccomplement: checkRecipient.complement,
+        recstate: checkRecipient.state,
+        reccity: checkRecipient.city,
+        reczipcode: checkRecipient.zipcode,
+      },
+    });
 
     return res.json(delivery);
   }
@@ -113,7 +132,7 @@ class DeliveryController {
 
     await deliveryIndex.destroy(checkID);
 
-    return res.json({ message: 'Delivery Man deleted' });
+    return res.json({ message: 'Delivery deleted' });
   }
 }
 
