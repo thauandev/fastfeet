@@ -9,6 +9,8 @@ import FileController from './app/controllers/FileController';
 import DeliveryController from './app/controllers/DeliveryController';
 import OpenOrderController from './app/controllers/OpenOrderController';
 import DeliveriesMadeController from './app/controllers/DeliveriesMadeController';
+import StartDeliveryController from './app/controllers/StartDeliveryController';
+import EndDeliveryController from './app/controllers/EndDeliveryController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -19,6 +21,16 @@ routes.post('/sessions', SessionController.store);
 
 routes.get('/deliveryman/:id/deliveries/open', OpenOrderController.index);
 routes.get('/deliveryman/:id/deliveries/made', DeliveriesMadeController.index);
+
+routes.put(
+  '/deliveryman/:id/deliveries/:orderId/start',
+  StartDeliveryController.update
+);
+
+routes.put(
+  '/deliveryman/:id/deliveries/:orderId/end',
+  EndDeliveryController.update
+);
 
 routes.use(authMiddleware);
 
