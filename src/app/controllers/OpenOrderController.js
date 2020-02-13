@@ -1,7 +1,7 @@
 import DeliveryMan from '../models/DeliveryMan';
 import Delivery from '../models/Delivery';
 
-class OrderController {
+class OpenOrderController {
   async index(req, res) {
     const deliveryman = req.params;
 
@@ -27,4 +27,4 @@ class OrderController {
   }
 }
 
-export default new OrderController();
+export default new OpenOrderController();
