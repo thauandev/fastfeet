@@ -2,6 +2,7 @@ import { Op } from 'sequelize';
 
 import DeliveryMan from '../models/DeliveryMan';
 import Delivery from '../models/Delivery';
+import File from '../models/File';
 
 class DeliveriesMadeController {
   async index(req, res) {
@@ -18,6 +19,13 @@ class DeliveriesMadeController {
     }
 
     const deliveries = await Delivery.findAll({
+      include: [
+        {
+          model: File,
+          as: 'signature',
+          attributes: ['name', 'path', 'url'],
+        },
+      ],
       where: {
         deliveryman_id: checkId.id,
         canceled_at: null,

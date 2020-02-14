@@ -32,7 +32,7 @@ class StartDeliveryController {
 
     const result = getHours(startDate);
 
-    if (!result > 8 && result < 18) {
+    if (!result >= 8 && result < 18) {
       return res
         .status(401)
         .json({ error: 'Start delivery just in bussines hour' });
