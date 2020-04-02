@@ -27,8 +27,16 @@ class DeliveryController {
       checkDelivery = deliveries;
     }
 
-    if (product !== null) {
+    if (product != null) {
       const deliveries = await Delivery.findAll({
+        include: [
+          {
+            model: File,
+            as: 'signature',
+            attributes: ['name', 'path', 'url'],
+          },
+        ],
+
         where: {
           product: {
             [Op.like]: product,
