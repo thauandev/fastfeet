@@ -1,4 +1,6 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
+
 import Delivery from '../models/Delivery';
 import Recipient from '../models/Recipient';
 import DeliveryMan from '../models/DeliveryMan';
@@ -8,17 +10,36 @@ import Mail from '../../lib/Mail';
 
 class DeliveryController {
   async index(req, res) {
-    const deliveries = await Delivery.findAll({
-      include: [
-        {
-          model: File,
-          as: 'signature',
-          attributes: ['name', 'path', 'url'],
-        },
-      ],
-    });
+    const { product } = req.query;
+    let checkDelivery = null;
 
-    return res.json(deliveries);
+    if (product == null) {
+      const deliveries = await Delivery.findAll({
+        include: [
+          {
+            model: File,
+            as: 'signature',
+            attributes: ['name', 'path', 'url'],
+          },
+        ],
+      });
+
+      checkDelivery = deliveries;
+    }
+
+    if (product !== null) {
+      const deliveries = await Delivery.findAll({
+        where: {
+          product: {
+            [Op.like]: product,
+          },
+        },
+      });
+
+      checkDelivery = deliveries;
+    }
+
+    return res.json(checkDelivery);
   }
 
   async store(req, res) {
