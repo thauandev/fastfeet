@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
 
 import Recipient from '../models/Recipient';
 
@@ -11,6 +12,17 @@ class RecipientController {
       const recipients = await Recipient.findAll();
       checkName = recipients;
     }
+    if (name != null) {
+      const recipients = await Recipient.findAll({
+        where: {
+          name: {
+            [Op.like]: name,
+          },
+        },
+      });
+      checkName = recipients;
+    }
+
     return res.json(checkName);
   }
 
@@ -35,7 +47,7 @@ class RecipientController {
       where: { name },
     });
 
-    if (!checkName) {
+    if (checkName) {
       return res.status(401).json({ error: 'Recipient already exist' });
     }
 
