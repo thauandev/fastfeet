@@ -21,6 +21,16 @@ class DeliveryController {
             as: 'signature',
             attributes: ['name', 'path', 'url'],
           },
+          {
+            model: DeliveryMan,
+            as: 'deliveryman',
+            attributes: ['name'],
+          },
+          {
+            model: Recipient,
+            as: 'recipient',
+            attributes: ['id', 'name', 'city', 'state'],
+          },
         ],
       });
 
@@ -34,6 +44,16 @@ class DeliveryController {
             model: File,
             as: 'signature',
             attributes: ['name', 'path', 'url'],
+          },
+          {
+            model: DeliveryMan,
+            as: 'deliveryman',
+            attributes: ['name'],
+          },
+          {
+            model: Recipient,
+            as: 'recipient',
+            attributes: ['id', 'name', 'city', 'state'],
           },
         ],
 
