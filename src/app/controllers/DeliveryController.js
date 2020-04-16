@@ -59,7 +59,7 @@ class DeliveryController {
 
         where: {
           product: {
-            [Op.like]: product,
+            [Op.iLike]: `%${product}%`,
           },
         },
       });
