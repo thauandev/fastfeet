@@ -25,6 +25,13 @@ class DeliveryController {
             model: DeliveryMan,
             as: 'deliveryman',
             attributes: ['name'],
+            include: [
+              {
+                model: File,
+                as: 'avatar',
+                attributes: ['name', 'path', 'url'],
+              },
+            ],
           },
           {
             model: Recipient,
@@ -59,7 +66,7 @@ class DeliveryController {
 
         where: {
           product: {
-            [Op.like]: product,
+            [Op.iLike]: product,
           },
         },
       });
